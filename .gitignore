@@ -1,0 +1,24 @@
+# Ambiente virtuale Python
+.venv/
+venv/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# File temporanei
+*.tmp
+*.temp
+
+# Output eventualmente generati
+*_kobo.cbz
+*_kobo.pdf
+
+# Log
+*.log
