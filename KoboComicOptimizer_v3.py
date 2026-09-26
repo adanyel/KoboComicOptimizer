@@ -1858,7 +1858,7 @@ def process_separate(
 
     print(f"File: {len(files)}")
     print(
-        f"Elaborazione parallela: "
+        f"Parallel processing: "
         f"{workers} processes"
     )
 
