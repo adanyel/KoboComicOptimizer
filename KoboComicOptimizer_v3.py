@@ -10,23 +10,23 @@ Input:
 - PDF
 - CBZ / CBR
 - ZIP / RAR
-- Cartelle contenenti immagini
+- Folders containing images
 
 Output:
 - CBZ
 - PDF
 
-Funzioni:
-- Ambiente Python isolato automatico (.venv)
-- PyMuPDF + Pillow automatici
-- Avvio rapido con INVIO
-- Menu personalizzato
-- Navigazione indietro
-- File unico: pagine ottimizzate in parallelo
-- File separati: comic elaborati in parallelo
-- Compressione intelligente automatica
-- Timer e indicatori di avanzamento
-- Verifica finale
+Features:
+- Automatic isolated Python environment (.venv)
+- Automatic PyMuPDF + Pillow setup
+- Quick start with ENTER
+- Custom settings menu
+- Back navigation
+- Single file: pages optimized in parallel
+- Separate files: comics processed in parallel
+- Automatic smart compression
+- Timer and progress indicators
+- Final validation
 ============================================================
 """
 
@@ -46,7 +46,7 @@ from time import time, sleep
 
 
 # ============================================================
-# CONFIGURAZIONE
+# CONFIGURATION
 # ============================================================
 
 APP_NAME = "Kobo Comic Optimizer"
@@ -73,12 +73,12 @@ PRESETS = {
         "quality": 60,
     },
     "3": {
-        "name": "Alta qualità",
+        "name": "High Quality",
         "max_side": 1800,
         "quality": 75,
     },
     "4": {
-        "name": "Massima qualità",
+        "name": "Maximum Quality",
         "max_side": 2400,
         "quality": 85,
     },
@@ -120,7 +120,7 @@ IGNORE_FOLDERS = {
 
 
 # ============================================================
-# AMBIENTE PYTHON ISOLATO
+# ISOLATED PYTHON ENVIRONMENT
 # ============================================================
 
 def running_inside_venv():
@@ -141,13 +141,13 @@ def ensure_virtual_environment():
     print(APP_NAME)
     print("=" * 60)
     print()
-    print("Controllo ambiente Python...")
+    print("Checking Python environment...")
 
     try:
 
         if not VENV_PYTHON.exists():
 
-            print("Creazione ambiente Python isolato...")
+            print("Creating isolated Python environment...")
 
             subprocess.run(
                 [
@@ -171,7 +171,7 @@ def ensure_virtual_environment():
 
         if check.returncode != 0:
 
-            print("Installazione dipendenze iniziali...")
+            print("Installing required dependencies...")
 
             subprocess.run(
                 [
@@ -197,9 +197,9 @@ def ensure_virtual_environment():
                 check=True,
             )
 
-        print("✓ Ambiente pronto.")
+        print("✓ Environment ready.")
         print()
-        print("Avvio programma...")
+        print("Starting application...")
         print()
 
         os.execv(
@@ -213,11 +213,11 @@ def ensure_virtual_environment():
     except Exception as error:
 
         print()
-        print("ERRORE CONFIGURAZIONE PYTHON")
+        print("PYTHON CONFIGURATION ERROR")
         print()
         print(error)
 
-        input("\nPremi INVIO per chiudere...")
+        input("\nPress ENTER to close...")
         sys.exit(1)
 
 
@@ -225,7 +225,7 @@ ensure_virtual_environment()
 
 
 # ============================================================
-# IMPORT DIPENDENZE
+# IMPORT DEPENDENCIES
 # ============================================================
 
 try:
@@ -240,15 +240,15 @@ try:
 except ImportError as error:
 
     print()
-    print("ERRORE: impossibile caricare le dipendenze.")
+    print("ERROR: unable to load dependencies.")
     print(error)
 
-    input("\nPremi INVIO per chiudere...")
+    input("\nPress ENTER to close...")
     sys.exit(1)
 
 
 # ============================================================
-# UTILITÀ
+# UTILITIES
 # ============================================================
 
 def clear():
@@ -272,7 +272,7 @@ def header(text):
 
 def pause():
 
-    input("\nPremi INVIO per continuare...")
+    input("\nPress ENTER to continue...")
 
 
 def format_size(size):
@@ -395,7 +395,7 @@ def stop_spinner(stop_event, start, thread):
     elapsed = format_time(time() - start)
 
     print(
-        f"\r✓ Completato in {elapsed}                    "
+        f"\r✓ Completed in {elapsed}                    "
     )
 
 
@@ -435,19 +435,19 @@ def collect_paths_from_input():
             sys.argv[1:]
         )
 
-    header("TRASCINA FILE O CARTELLE")
+    header("DRAG FILES OR FOLDERS")
 
-    print("Puoi trascinare:")
+    print("You can drag:")
     print()
     print("• PDF")
     print("• CBZ / CBR")
     print("• ZIP / RAR")
-    print("• Cartelle")
-    print("• Più elementi contemporaneamente")
+    print("• Folders")
+    print("• Multiple items at once")
     print()
 
     raw = input(
-        "Trascina qui il materiale e premi INVIO:\n> "
+        "Drag files or folders here and press ENTER:\n> "
     ).strip()
 
     if not raw:
@@ -518,7 +518,7 @@ def expand_inputs(paths):
 
         if not path.exists():
 
-            print(f"ATTENZIONE: non trovato: {path}")
+            print(f"WARNING: not found: {path}")
             continue
 
         if path.is_dir():
@@ -564,22 +564,22 @@ def ask_main_menu():
 
         header(APP_NAME)
 
-        print("DEFAULT CONSIGLIATI")
+        print("RECOMMENDED DEFAULTS")
         print()
         print("Preset: Kobo Small")
-        print("Lato massimo: 1000 px")
-        print("JPEG qualità: 50")
+        print("Maximum side: 1000 px")
+        print("JPEG quality: 50")
         print("Output: CBZ")
-        print("Modalità: File unico")
-        print("Compressione intelligente: ATTIVA")
+        print("Mode: Single file")
+        print("Smart compression: ENABLED")
         print()
 
-        print("1) AVVIO RAPIDO — INVIO")
-        print("2) Personalizza")
-        print("0) Esci")
+        print("1) QUICK START — ENTER")
+        print("2) Customize")
+        print("0) Exit")
         print()
 
-        choice = input("Scelta [1]: ").strip()
+        choice = input("Choice [1]: ").strip()
 
         if choice in ("", "1"):
 
@@ -607,7 +607,7 @@ def custom_menu():
     while True:
 
         clear()
-        header("PERSONALIZZA — PRESET")
+        header("CUSTOMIZE — PRESET")
 
         for key, preset in PRESETS.items():
 
@@ -618,7 +618,7 @@ def custom_menu():
             )
 
         print()
-        print("0) Indietro")
+        print("0) Back")
 
         choice = input("\nPreset [1]: ").strip()
 
@@ -638,14 +638,14 @@ def custom_menu():
     while True:
 
         clear()
-        header("PERSONALIZZA — FORMATO")
+        header("CUSTOMIZE — FORMAT")
 
-        print("1) CBZ — consigliato")
+        print("1) CBZ — recommended")
         print("2) PDF")
         print()
-        print("0) Indietro")
+        print("0) Back")
 
-        choice = input("\nFormato [1]: ").strip()
+        choice = input("\nFormat [1]: ").strip()
 
         if choice == "0":
             return custom_menu()
@@ -658,19 +658,19 @@ def custom_menu():
             output = "PDF"
             break
 
-    # MODALITÀ
+    # MODE
 
     while True:
 
         clear()
-        header("PERSONALIZZA — MODALITÀ")
+        header("CUSTOMIZE — MODE")
 
-        print("1) File unico")
-        print("2) File separati")
+        print("1) Single file")
+        print("2) Separate files")
         print()
-        print("0) Indietro")
+        print("0) Back")
 
-        choice = input("\nModalità [1]: ").strip()
+        choice = input("\nMode [1]: ").strip()
 
         if choice == "0":
             return custom_menu()
@@ -691,7 +691,7 @@ def custom_menu():
 
 
 # ============================================================
-# ARCHIVI
+# ARCHIVES
 # ============================================================
 
 def find_archive_extractor():
@@ -763,8 +763,8 @@ def extract_rar(source, destination):
     if not extractor:
 
         raise RuntimeError(
-            "RAR/CBR non supportato: "
-            "installa 'unar' o '7zip'."
+            "RAR/CBR is not supported: "
+            "install 'unar' or '7zip'."
         )
 
     if extractor in ("7z", "7zz"):
@@ -799,7 +799,7 @@ def extract_rar(source, destination):
         ]
 
     stop_event, start, thread = start_spinner(
-        "Estrazione archivio"
+        "Extracting archive"
     )
 
     result = subprocess.run(
@@ -819,7 +819,7 @@ def extract_rar(source, destination):
 
         raise RuntimeError(
             result.stderr
-            or "Errore estrazione RAR."
+            or "RAR extraction error."
         )
 
 
@@ -830,14 +830,14 @@ def extract_rar(source, destination):
 def extract_pdf(source, destination, max_side):
 
     print()
-    print(f"Elaborazione PDF: {source.name}")
+    print(f"Processing PDF: {source.name}")
 
     document = pymupdf.open(str(source))
 
     total = len(document)
 
-    # Rendering controllato.
-    # Evita PNG enormi con Matrix(2,2).
+    # Controlled rendering.
+    # Avoids huge PNG files with Matrix(2,2).
 
     zoom = 1.4
 
@@ -874,11 +874,11 @@ def extract_pdf(source, destination, max_side):
 
     document.close()
 
-    print(f"✓ Renderizzate {total} pagine.")
+    print(f"✓ Rendered {total} pages.")
 
 
 # ============================================================
-# CARTELLE / IMMAGINI
+# FOLDERS / IMAGES
 # ============================================================
 
 def copy_images_from_folder(
@@ -1010,12 +1010,12 @@ def extract_source(
         return
 
     raise RuntimeError(
-        f"Formato non supportato: {source}"
+        f"Unsupported format: {source}"
     )
 
 
 # ============================================================
-# OTTIMIZZAZIONE IMMAGINI
+# IMAGE OPTIMIZATION
 # ============================================================
 
 def process_image_task(task):
@@ -1104,7 +1104,7 @@ def optimize_images(
     if total == 0:
 
         raise RuntimeError(
-            "Nessuna immagine trovata."
+            "No images found."
         )
 
     output_folder.mkdir(
@@ -1114,7 +1114,7 @@ def optimize_images(
 
     print()
     print(
-        f"Pagine trovate: {total}"
+        f"Pages found: {total}"
     )
 
     print()
@@ -1122,13 +1122,13 @@ def optimize_images(
     if workers > 1:
 
         print(
-            f"Elaborazione parallela "
-            f"({workers} processi)..."
+            f"Parallel processesng "
+            f"({workers} processes)..."
         )
 
     else:
 
-        print("Elaborazione...")
+        print("Processing...")
 
     start = time()
 
@@ -1165,7 +1165,7 @@ def optimize_images(
                 errors.append(message)
 
             print(
-                f"\rElaborate: "
+                f"\rProcessed: "
                 f"{completed}/{total} "
                 f"({completed / total * 100:.1f}%) "
                 f"- {format_time(time() - start)}",
@@ -1197,7 +1197,7 @@ def optimize_images(
                     errors.append(message)
 
                 print(
-                    f"\rElaborate: "
+                    f"\rProcessed: "
                     f"{completed}/{total} "
                     f"({completed / total * 100:.1f}%) "
                     f"- {format_time(time() - start)}",
@@ -1223,10 +1223,10 @@ def optimize_images(
 def create_cbz(images, output_file):
 
     print()
-    print("Creazione CBZ...")
+    print("Creating CBZ...")
 
     stop_event, start, thread = start_spinner(
-        "Creazione archivio"
+        "Creating archive"
     )
 
     with zipfile.ZipFile(
@@ -1252,12 +1252,12 @@ def create_cbz(images, output_file):
 def create_pdf(images, output_file):
 
     print()
-    print("Creazione PDF...")
+    print("Creating PDF...")
 
     pil_images = []
 
     stop_event, start, thread = start_spinner(
-        "Creazione PDF"
+        "Creating PDF"
     )
 
     try:
@@ -1323,7 +1323,7 @@ def build_output(
 
 
 # ============================================================
-# VERIFICA
+# VALIDATION
 # ============================================================
 
 def verify_cbz(path):
@@ -1387,7 +1387,7 @@ def verify_output(
 
 
 # ============================================================
-# COMPRESSIONE SMART
+# SMART COMPRESSION
 # ============================================================
 
 def optimize_with_smart_compression(
@@ -1399,7 +1399,7 @@ def optimize_with_smart_compression(
     original_size,
 ):
 
-    header("OTTIMIZZAZIONE STANDARD")
+    header("STANDARD OPTIMIZATION")
 
     standard_dir = (
         temporary_root /
@@ -1439,8 +1439,8 @@ def optimize_with_smart_compression(
     best_size = standard_size
 
     # ========================================================
-    # SE IL RISULTATO È PIÙ GRANDE,
-    # PROVA AUTOMATICAMENTE UNA VERSIONE PIÙ COMPATTA
+    # IF THE RESULT IS LARGER,
+    # AUTOMATICALLY TRY A MORE COMPACT VERSION
     # ========================================================
 
     if (
@@ -1449,17 +1449,17 @@ def optimize_with_smart_compression(
     ):
 
         header(
-            "COMPRESSIONE SMART AGGIUNTIVA"
+            "ADDITIONAL SMART COMPRESSION"
         )
 
         print(
-            "Il risultato standard è più grande "
-            "dell'originale."
+            "The standard result is larger "
+            "than the original."
         )
 
         print(
-            "Provo automaticamente una versione "
-            "più compatta..."
+            "Automatically trying a "
+            "more compact version..."
         )
 
         aggressive_quality = max(
@@ -1506,7 +1506,7 @@ def optimize_with_smart_compression(
         )
 
         print(
-            f"Compatto:  {format_size(aggressive_size)}"
+            f"Compact:  {format_size(aggressive_size)}"
         )
 
         if aggressive_size < best_size:
@@ -1516,16 +1516,16 @@ def optimize_with_smart_compression(
 
             print()
             print(
-                "✓ Selezionata automaticamente "
-                "la versione più compatta."
+                "✓ Automatically selected "
+                "the more compact version."
             )
 
         else:
 
             print()
             print(
-                "✓ La versione standard è "
-                "rimasta la migliore."
+                "✓ The standard version "
+                "remains the best option."
             )
 
     return best_output, best_size
@@ -1562,7 +1562,7 @@ def safe_output_path(
 
 
 # ============================================================
-# ELABORAZIONE SINGOLA
+# SINGLE SOURCE PROCESSING
 # ============================================================
 
 def process_single_source(
@@ -1602,7 +1602,7 @@ def process_single_source(
         if not images:
 
             raise RuntimeError(
-                f"Nessuna immagine trovata in "
+                f"No images found in "
                 f"{source.name}"
             )
 
@@ -1647,7 +1647,7 @@ def process_single_source(
                 pass
 
             raise RuntimeError(
-                "File finale non valido."
+                "Invalid output file."
             )
 
     return {
@@ -1661,7 +1661,7 @@ def process_single_source(
 
 
 # ============================================================
-# FILE UNICO
+# SINGLE FILE
 # ============================================================
 
 def process_merged(
@@ -1694,8 +1694,8 @@ def process_merged(
     else:
 
         base_name = (
-            f"{first.stem}_e_altri_"
-            f"{len(files)}_volumi"
+            f"{first.stem}_and_other_"
+            f"{len(files)}_volumes"
         )
 
     output = safe_output_path(
@@ -1719,15 +1719,15 @@ def process_merged(
 
         global_index = 1
 
-        header("CREAZIONE FILE UNICO")
+        header("CREATING SINGLE FILE")
 
         print(
-            "I file vengono raccolti in ordine."
+            "Files are collected in order."
         )
 
         print(
-            "Le pagine vengono ottimizzate "
-            "in parallelo."
+            "Pages are optimized "
+            "in parallel."
         )
 
         for file_index, source in enumerate(
@@ -1765,7 +1765,7 @@ def process_merged(
             if not images:
 
                 raise RuntimeError(
-                    f"Nessuna pagina trovata in "
+                    f"No pages found in "
                     f"{source.name}"
                 )
 
@@ -1812,7 +1812,7 @@ def process_merged(
         if not valid:
 
             raise RuntimeError(
-                "Il file finale non è valido."
+                "The output file is invalid."
             )
 
     return {
@@ -1825,7 +1825,7 @@ def process_merged(
 
 
 # ============================================================
-# FILE SEPARATI
+# SEPARATE FILES
 # ============================================================
 
 def separate_worker(arguments):
@@ -1854,12 +1854,12 @@ def process_separate(
         len(files),
     )
 
-    header("CREAZIONE FILE SEPARATI")
+    header("CREATING SEPARATE FILES")
 
     print(f"File: {len(files)}")
     print(
-        f"Elaborazione parallela: "
-        f"{workers} processi"
+        f"Parallel processing: "
+        f"{workers} processes"
     )
 
     start = time()
@@ -1896,7 +1896,7 @@ def process_separate(
             completed += 1
 
             print(
-                f"\rCompletati: "
+                f"\rCompleted: "
                 f"{completed}/{len(files)}",
                 end="",
                 flush=True,
@@ -1933,7 +1933,7 @@ def process_separate(
                 completed += 1
 
                 print(
-                    f"\rCompletati: "
+                    f"\rCompleted: "
                     f"{completed}/{len(files)} "
                     f"- {format_time(time() - start)}",
                     end="",
@@ -1946,7 +1946,7 @@ def process_separate(
 
 
 # ============================================================
-# STATISTICHE
+# STATISTICS
 # ============================================================
 
 def print_statistics(
@@ -1954,14 +1954,14 @@ def print_statistics(
     final_size,
 ):
 
-    header("STATISTICHE")
+    header("STATISTICS")
 
     print(
-        f"Originale: {format_size(original_size)}"
+        f"Original: {format_size(original_size)}"
     )
 
     print(
-        f"Finale:    {format_size(final_size)}"
+        f"Final:    {format_size(final_size)}"
     )
 
     if original_size > 0:
@@ -1975,7 +1975,7 @@ def print_statistics(
         )
 
         print(
-            f"Riduzione: {reduction:.1f}%"
+            f"Reduction: {reduction:.1f}%"
         )
 
     print()
@@ -1983,14 +1983,14 @@ def print_statistics(
     if final_size <= original_size:
 
         print(
-            "✓ Ottimizzazione completata"
+            "✓ Optimization completed"
         )
 
     else:
 
         print(
-            "ATTENZIONE: il risultato finale "
-            "è più grande dell'originale."
+            "WARNING: the final output "
+            "è più grande than the original."
         )
 
 
@@ -2008,7 +2008,7 @@ def main():
 
     if not paths:
 
-        print("Nessun file ricevuto.")
+        print("No files received.")
         pause()
         return
 
@@ -2017,8 +2017,8 @@ def main():
     if not files:
 
         print(
-            "ERRORE: nessun materiale "
-            "supportato trovato."
+            "ERROR: no supported input "
+            "was found."
         )
 
         pause()
@@ -2026,7 +2026,7 @@ def main():
 
     clear()
 
-    header(f"FILE TROVATI: {len(files)}")
+    header(f"FILES FOUND: {len(files)}")
 
     for index, file in enumerate(
         files,
@@ -2040,15 +2040,15 @@ def main():
     print()
 
     input(
-        "Premi INVIO per confermare "
-        "l'ordine..."
+        "Press ENTER to confirm "
+        "the order..."
     )
 
     settings = ask_main_menu()
 
     if not settings:
 
-        print("Operazione annullata.")
+        print("Operation cancelled.")
         return
 
     preset = settings["preset"]
@@ -2057,43 +2057,43 @@ def main():
 
     clear()
 
-    header("RIEPILOGO")
+    header("SUMMARY")
 
     print(f"File: {len(files)}")
     print(f"Preset: {preset['name']}")
     print(
-        f"Lato massimo: "
+        f"Maximum side: "
         f"{preset['max_side']} px"
     )
     print(
-        f"JPEG qualità: "
+        f"JPEG quality: "
         f"{preset['quality']}"
     )
     print(f"Output: {output_type}")
 
     print(
-        "Modalità: "
+        "Mode: "
         + (
-            "File unico"
+            "Single file"
             if mode == "single"
-            else "File separati"
+            else "Separate files"
         )
     )
 
     print(
-        "Compressione intelligente: ATTIVA"
+        "Smart compression: ENABLED"
     )
 
     print()
 
-    input("Premi INVIO per iniziare...")
+    input("Press ENTER to start...")
 
     total_start = time()
 
     try:
 
         # ====================================================
-        # FILE UNICO
+        # SINGLE FILE
         # ====================================================
 
         if mode == "single":
@@ -2115,15 +2115,15 @@ def main():
                 page_workers,
             )
 
-            header("VERIFICA COMPLETATA")
+            header("VALIDATION COMPLETE")
 
             print(
-                f"Pagine output: "
+                f"Output pages: "
                 f"{result['pages']}"
             )
 
             print(
-                "✓ File finale valido"
+                "✓ Output file is valid"
             )
 
             print()
@@ -2138,7 +2138,7 @@ def main():
             print(result["output"])
 
         # ====================================================
-        # FILE SEPARATI
+        # SEPARATE FILES
         # ====================================================
 
         else:
@@ -2159,17 +2159,17 @@ def main():
                 for result in results
             )
 
-            header("VERIFICA COMPLETATA")
+            header("VALIDATION COMPLETE")
 
             print(
-                f"File completati: "
+                f"Files completed: "
                 f"{len(results)}"
             )
 
             if not errors:
 
                 print(
-                    "✓ Tutti i file completati"
+                    "✓ All files completed"
                 )
 
             print_statistics(
@@ -2179,7 +2179,7 @@ def main():
 
             if errors:
 
-                header("ERRORI")
+                header("ERRORS")
 
                 for error in errors:
 
@@ -2187,7 +2187,7 @@ def main():
                     print()
 
             print()
-            print("OUTPUT CREATI:")
+            print("CREATED OUTPUTS:")
 
             for result in sorted(
                 results,
@@ -2205,12 +2205,12 @@ def main():
 
         print()
         print(
-            "Operazione annullata dall'utente."
+            "Operation cancelled by user."
         )
 
     except Exception as error:
 
-        header("ERRORE")
+        header("ERROR")
 
         print(error)
 
@@ -2221,7 +2221,7 @@ def main():
     line()
 
     print(
-        f"OPERAZIONE TERMINATA "
+        f"OPERATION COMPLETED "
         f"IN {format_time(elapsed)}"
     )
 
@@ -2230,7 +2230,7 @@ def main():
     try:
 
         input(
-            "\nPremi INVIO per chiudere..."
+            "\nPress ENTER to close..."
         )
 
     except EOFError:

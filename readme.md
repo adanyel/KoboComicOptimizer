@@ -1,62 +1,62 @@
 # Kobo Comic Optimizer
 
-Ottimizzatore di fumetti e manga per Kobo, progettato principalmente per macOS e Apple Silicon.
+Kobo Comic Optimizer is a command-line tool for optimizing comics and manga for Kobo eReaders, designed primarily for macOS and Apple Silicon.
 
-Il programma può elaborare PDF, CBZ, CBR, ZIP, RAR e cartelle contenenti immagini, creando file CBZ o PDF ottimizzati.
+It can process PDF, CBZ, CBR, ZIP, RAR, and folders containing images, then create optimized CBZ or PDF files.
 
-## Caratteristiche
+## Features
 
-- Supporto per PDF
-- Supporto per CBZ e ZIP
-- Supporto per CBR e RAR
-- Supporto per cartelle contenenti immagini
-- Supporto per più file contemporaneamente
-- Ordinamento naturale di file e pagine
-- Creazione di un unico file oppure di file separati
-- Elaborazione parallela delle pagine nella modalità file unico
-- Elaborazione parallela tra file nella modalità file separati
-- Ridimensionamento automatico delle immagini
-- Conversione in JPEG ottimizzato
-- Compressione JPEG configurabile tramite preset
-- Timer e indicatori di avanzamento
-- Verifica finale dell'output
-- Gestione automatica di `__MACOSX`, `.DS_Store` e file `._`
-- Ambiente Python isolato automatico tramite `.venv`
-- Installazione automatica delle dipendenze Python necessarie
+- PDF support
+- CBZ and ZIP support
+- CBR and RAR support
+- Folders containing images
+- Multiple inputs at once
+- Natural sorting for files and pages
+- Single merged output or separate output files
+- Parallel page processing in single-file mode
+- Parallel file processing in separate-files mode
+- Automatic image resizing
+- Optimized JPEG conversion
+- Configurable JPEG compression through presets
+- Progress indicators and elapsed-time tracking
+- Final output validation
+- Automatic handling of `__MACOSX`, `.DS_Store`, and `._` files
+- Automatic isolated Python environment through `.venv`
+- Automatic installation of required Python dependencies
 
 ---
 
-# Requisiti
+## Requirements
 
-## Sistema
+### System
 
-Il programma è progettato principalmente per:
+Designed primarily for:
 
 - macOS
 - Apple Silicon
 
-## Python
+### Python
 
-È necessario avere Python 3 installato.
+Python 3 is required.
 
-Il programma utilizza automaticamente un ambiente virtuale Python isolato chiamato:
+The application automatically creates and uses an isolated Python virtual environment named:
 
 ```text
 .venv
 ```
 
-La cartella viene creata automaticamente accanto allo script alla prima esecuzione.
+The folder is created next to the script on first launch.
 
-## Dipendenze Python
+### Python dependencies
 
-Lo script installa automaticamente, quando necessario:
+When needed, the script automatically installs:
 
 - PyMuPDF
 - Pillow
 
-Non è necessario installarle manualmente con `pip`.
+You do not need to install them manually with `pip`.
 
-L'utilizzo di un ambiente virtuale evita i problemi di macOS/Homebrew relativi all'errore:
+Using a virtual environment also avoids macOS/Homebrew issues related to:
 
 ```text
 externally-managed-environment
@@ -64,16 +64,16 @@ externally-managed-environment
 
 ---
 
-# Dipendenze opzionali per CBR e RAR
+## Optional dependencies for CBR and RAR
 
-Per elaborare file:
+To process:
 
 - CBR
 - RAR
 
-è necessario avere almeno un estrattore compatibile disponibile nel sistema.
+at least one compatible archive extractor must be available on the system.
 
-Lo script cerca automaticamente, in questo ordine:
+The script checks for these tools in this order:
 
 ```text
 7zz
@@ -82,65 +82,64 @@ unar
 unrar
 ```
 
-Su macOS può essere installato, ad esempio, `p7zip` tramite Homebrew:
+On macOS, for example, you can install `p7zip` with Homebrew:
 
 ```bash
 brew install p7zip
 ```
 
-In alternativa:
+Or:
 
 ```bash
 brew install unar
 ```
 
-Queste dipendenze sono necessarie solo per l'elaborazione di archivi RAR e CBR.
+These dependencies are required only for RAR and CBR archives.
 
 ---
 
-# Avvio
+## Getting started
 
-Posiziona nella stessa cartella:
+Place the script in a folder:
 
 ```text
-KoboComicOptimizer.py
-README.md
+KoboComicOptimizer_v3.py
 ```
 
-Poi rendi lo script eseguibile:
+Make it executable:
 
 ```bash
-chmod +x KoboComicOptimizer.py
+chmod +x KoboComicOptimizer_v3.py
 ```
 
-Avvialo con:
+Run it with:
 
 ```bash
-./KoboComicOptimizer.py
+./KoboComicOptimizer_v3.py
 ```
 
-Oppure:
+Or:
 
 ```bash
-python3 KoboComicOptimizer.py
+python3 KoboComicOptimizer_v3.py
 ```
 
-Alla prima esecuzione il programma:
+On first launch, the application:
 
-1. crea automaticamente `.venv`
-2. controlla le dipendenze
-3. installa PyMuPDF e Pillow se mancanti
-4. riavvia automaticamente lo script nell'ambiente isolato
+1. creates `.venv`
+2. checks the required dependencies
+3. installs PyMuPDF and Pillow if missing
+4. restarts itself inside the isolated environment
 
-Alle esecuzioni successive non reinstalla le dipendenze.
+Dependencies are not reinstalled on later runs unless needed.
 
 ---
 
-# Formati supportati
+## Supported formats
 
-## Input
+### Input
 
-### Documenti e archivi
+Documents and archives:
 
 - PDF
 - CBZ
@@ -148,7 +147,7 @@ Alle esecuzioni successive non reinstalla le dipendenze.
 - ZIP
 - RAR
 
-### Immagini
+Images:
 
 - JPG
 - JPEG
@@ -159,294 +158,268 @@ Alle esecuzioni successive non reinstalla le dipendenze.
 - TIFF
 - AVIF
 
-### Cartelle
+Folders containing images are also supported.
 
-Sono supportate cartelle contenenti immagini.
+### Output
 
----
-
-# Formati di output
-
-Il programma può creare:
+The application can create:
 
 - CBZ
 - PDF
 
-## CBZ
+#### CBZ
 
-È generalmente il formato consigliato per fumetti e manga.
+CBZ is generally the recommended format for comics and manga on Kobo devices.
 
-Le immagini vengono archiviate senza ulteriore compressione ZIP, perché i JPEG sono già compressi.
+Images are stored without additional ZIP compression because JPEG files are already compressed.
 
-## PDF
+#### PDF
 
-Il programma crea un PDF utilizzando le immagini ottimizzate.
-
----
-
-# Utilizzo
-
-All'avvio puoi fornire:
-
-- un singolo file
-- più file contemporaneamente
-- una cartella
-- più cartelle
-
-Puoi anche trascinare file e cartelle direttamente nel Terminale.
-
-Il programma rileva automaticamente i contenuti supportati e mostra l'ordine di elaborazione.
+The application builds a PDF from the optimized images.
 
 ---
 
-# Avvio rapido
+## Usage
 
-Nel menu principale è disponibile:
+At startup you can provide:
+
+- one file
+- multiple files
+- one folder
+- multiple folders
+
+You can also drag files and folders directly into the Terminal window.
+
+The application detects supported content automatically and shows the processing order before starting.
+
+---
+
+## Quick start
+
+The main menu includes:
 
 ```text
-1) AVVIO RAPIDO — premi INVIO
+1) QUICK START — ENTER
 ```
 
-Le impostazioni predefinite sono:
+Default settings:
 
 ```text
 Preset: Kobo Small
-Lato massimo: 1000 px
-JPEG qualità: 50
+Maximum side: 1000 px
+JPEG quality: 50
 Output: CBZ
-Modalità: File unico
+Mode: Single file
 ```
 
-Per utilizzare queste impostazioni è sufficiente premere `INVIO`.
+Press `ENTER` to use these settings immediately.
 
 ---
 
-# Personalizzazione
-
-È possibile scegliere:
-
-## Preset
+## Presets
 
 ### Kobo Small
 
 ```text
-Lato massimo: 1000 px
-JPEG qualità: 50
+Maximum side: 1000 px
+JPEG quality: 50
 ```
 
 ### Kobo Standard
 
 ```text
-Lato massimo: 1400 px
-JPEG qualità: 60
+Maximum side: 1400 px
+JPEG quality: 60
 ```
 
-### Alta qualità
+### High Quality
 
 ```text
-Lato massimo: 1800 px
-JPEG qualità: 75
+Maximum side: 1800 px
+JPEG quality: 75
 ```
 
-### Massima qualità
+### Maximum Quality
 
 ```text
-Lato massimo: 2400 px
-JPEG qualità: 85
+Maximum side: 2400 px
+JPEG quality: 85
 ```
 
 ---
 
-# Modalità di output
+## Output modes
 
-## File unico
+### Single file
 
-Tutti i file selezionati vengono raccolti rispettando l'ordine naturale e uniti in un unico CBZ o PDF.
+All selected sources are collected in natural order and merged into a single CBZ or PDF.
 
-Le sorgenti vengono elaborate sequenzialmente per garantire il corretto ordine delle pagine e dei volumi.
+Sources are collected sequentially to preserve page and volume order. The resulting pages are then optimized in parallel.
 
-Successivamente, le immagini vengono ottimizzate in parallelo.
+Parallelism is therefore applied to pages, not to different volumes while they are being collected.
 
-Questo significa che il parallelismo viene applicato alle pagine, non ai diversi volumi durante la raccolta.
+### Separate files
 
----
+Each source generates its own output file.
 
-## File separati
+In this mode, multiple comics can be processed at the same time. Each individual file uses one internal process to avoid excessive parallelism.
 
-Ogni sorgente genera un proprio file di output.
-
-In questa modalità il programma può elaborare più file contemporaneamente.
-
-Ogni singolo file utilizza un solo processo interno per evitare un parallelismo eccessivo.
-
-Il parallelismo avviene quindi tra i diversi fumetti.
+Parallelism is therefore applied across different comics.
 
 ---
 
-# PDF
+## PDF processing
 
-I PDF vengono convertiti tramite PyMuPDF.
+PDF files are converted with PyMuPDF.
 
-Ogni pagina viene renderizzata e trasformata in immagine.
-
-Il rendering utilizza una matrice di scala:
-
-```text
-2x
-```
-
-Le immagini risultanti vengono poi ridimensionate in base al preset selezionato.
+Each page is rendered to an image using a controlled `1.4x` scale, then resized according to the selected preset.
 
 ---
 
-# Ottimizzazione delle immagini
+## Image optimization
 
-Durante l'elaborazione il programma:
+During processing, the application:
 
-1. corregge automaticamente l'orientamento EXIF
-2. converte le immagini nel formato RGB
-3. gestisce la trasparenza applicando uno sfondo bianco
-4. ridimensiona le immagini quando superano il lato massimo del preset
-5. salva il risultato come JPEG
+1. applies EXIF orientation
+2. converts images to RGB
+3. handles transparency with a white background
+4. resizes images that exceed the preset's maximum side
+5. saves the result as JPEG
 
-Le immagini JPEG utilizzano:
+JPEG settings:
 
 ```text
 Subsampling: 4:2:0
-Optimize: attivo
-Progressive: attivo
+Optimize: enabled
+Progressive: enabled
 ```
 
 ---
 
-# Indicatori di avanzamento
+## Progress indicators
 
-Durante l'elaborazione vengono mostrati:
+During processing, the application shows:
 
-- numero di pagine elaborate
-- percentuale di completamento
-- tempo trascorso
+- processed pages
+- completion percentage
+- elapsed time
 
-Esempio:
+Example:
 
 ```text
-Elaborate: 80/132 (60.6%) - 00:24
+Processed: 80/132 (60.6%) - 00:24
 ```
 
-Durante la creazione del CBZ viene mostrato anche il numero di pagine archiviate.
+---
+
+## Final validation
+
+After processing, the application validates the generated file.
+
+### CBZ
+
+The archive is checked to make sure it contains valid image files.
+
+### PDF
+
+The PDF is checked to make sure it can be opened and contains at least one page.
+
+If validation fails, the output file is deleted and an error is reported.
 
 ---
 
-# Verifica finale
+## Output naming
 
-Al termine dell'elaborazione il programma verifica il file creato.
+Output files are normally created in the same folder as the source.
 
-## CBZ
-
-Viene controllato che l'archivio contenga immagini valide.
-
-## PDF
-
-Viene controllato che il PDF possa essere aperto e contenga almeno una pagina.
-
-Se la verifica fallisce, il file di output viene eliminato e viene segnalato un errore.
-
----
-
-# Output
-
-Il file viene normalmente creato nella stessa cartella della sorgente.
-
-Il nome utilizza il suffisso:
+The filename uses the suffix:
 
 ```text
 _kobo
 ```
 
-Esempio:
+Example:
 
 ```text
 Manga.cbz
 ```
 
-diventa:
+becomes:
 
 ```text
 Manga_kobo.cbz
 ```
 
-Se il nome esiste già:
+If that filename already exists:
 
 ```text
 Manga_kobo_2.cbz
 Manga_kobo_3.cbz
 ```
 
-e così via.
+and so on.
 
 ---
 
-# Dimensioni del file
+## File size
 
-La dimensione finale dipende principalmente da:
+The final file size mainly depends on:
 
-- dimensione originale delle immagini
-- formato dell'input
-- preset selezionato
-- qualità JPEG selezionata
-- livello di compressione già presente nell'originale
+- original image dimensions
+- input format
+- selected preset
+- JPEG quality
+- compression already present in the original source
 
-Un file ottimizzato può, in alcuni casi, risultare più grande dell'originale.
+In some cases, an optimized file can be larger than the original. This can happen when the original already uses very efficient compression or when already optimized images are re-encoded.
 
-Questo accade soprattutto quando il file originale utilizza già una compressione molto efficiente oppure quando la conversione ricodifica immagini già ottimizzate.
-
-Il programma mostra comunque il confronto finale:
+The application reports the final comparison:
 
 ```text
-Originale: XX.XX MB
-Finale:    XX.XX MB
-Riduzione: XX.X%
+Original:  XX.XX MB
+Final:     XX.XX MB
+Reduction: XX.X%
 ```
 
-Una riduzione negativa indica che il file finale è più grande dell'originale.
+A negative reduction means that the output is larger than the original.
 
 ---
 
-# Interruzione
+## Cancelling
 
-Durante l'elaborazione puoi interrompere il programma con:
+Press:
 
 ```text
 CTRL + C
 ```
 
-Il programma segnalerà l'annullamento dell'operazione.
+to stop processing.
 
 ---
 
-# Struttura della cartella
+## Folder structure
 
-Dopo la prima esecuzione, la struttura sarà simile a:
+After the first run, the folder will look similar to:
 
 ```text
 Kobo Comic Optimizer/
 │
-├── KoboComicOptimizer.py
-├── README.md
+├── KoboComicOptimizer_v3.py
+├── readme.md
 └── .venv/
 ```
 
-La cartella `.venv` viene creata automaticamente e contiene l'ambiente Python isolato utilizzato dal programma.
+The `.venv` folder is created automatically and contains the isolated Python environment used by the application.
 
-Non è necessario modificarla manualmente.
+You do not need to modify it manually.
 
 ---
 
-# Note
+## Notes
 
-I file temporanei utilizzati durante l'elaborazione vengono creati automaticamente e rimossi al termine dell'operazione.
+Temporary files are created automatically during processing and removed when the operation finishes.
 
-I file e le cartelle macOS non necessari, come:
+Unnecessary macOS files and folders such as:
 
 ```text
 __MACOSX
@@ -454,17 +427,17 @@ __MACOSX
 ._
 ```
 
-vengono ignorati durante l'elaborazione.
+are ignored.
 
 ---
 
-# Compatibilità
+## Compatibility
 
-Progettato principalmente per:
+Designed primarily for:
 
 - macOS
 - Apple Silicon
 - Kobo
 - KOReader
 
-Per l'elaborazione di CBR e RAR è necessario installare un estrattore compatibile.
+A compatible extractor is required for CBR and RAR files.
